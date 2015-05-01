@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="H2 - users" uuid="0e60239e-1a95-4561-933a-b4ea8072d0b0">
+      <secret-storage>memory</secret-storage>
+      <schema-pattern>USERS.PUBLIC</schema-pattern>
+      <default-schemas>USERS.PUBLIC</default-schemas>
+    </data-source>
+  </component>
+</project>

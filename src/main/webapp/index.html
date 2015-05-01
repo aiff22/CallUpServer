@@ -1,0 +1,341 @@
+<!-- BEGIN: main -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <link rel="canonical" href="{room_link}"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+</head>
+<body>
+<script type="text/javascript">
+    var localVideo;
+    var miniVideo;
+    var remoteVideo;
+    var localStream;
+    var channel;
+    var channelReady = false;
+    var pc;
+    var pc;
+    var socket;
+    var initiator = {initiator};
+    var started = false;
+
+    function initialize() {
+        console.log("Initializing; room={room_key}.");
+        card = document.getElementById("card");
+        localVideo = document.getElementById("localVideo");
+        miniVideo = document.getElementById("miniVideo");
+        remoteVideo = document.getElementById("remoteVideo");
+        resetStatus();
+        openChannel();
+        getUserMedia();
+    }
+
+    function openChannel() {
+        console.log("Opening channel.");
+        var location = "ws://{server_name}:80/";
+        channel = new WebSocket(location);
+        channel.onopen = onChannelOpened;
+        console.log("onChannelOpened");
+        channel.onmessage = onChannelMessage;
+        console.log("onChannelMessage");
+        channel.onclose = onChannelClosed;
+        console.log("onChannelClosed");
+        channel.onerror = onChannelError;
+        console.log("onChannelError");
+
+    }
+
+    function resetStatus() {
+        if (!initiator) {
+            setStatus("Waiting for someone to join: <a href=\"{room_link}\">{room_link}</a>");
+        } else {
+            setStatus("Initializing...");
+        }
+    }
+
+    function getUserMedia() {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+        try {
+            navigator.getUserMedia({audio: true, video: true}, onUserMediaSuccess, onUserMediaError);
+            console.log("Requested access to local media with new syntax.");
+        } catch (e) {
+            try {
+                navigator.getUserMedia("video,audio", onUserMediaSuccess, onUserMediaError);
+                console.log("Requested access to local media with old syntax.");
+            } catch (e) {
+                alert("webkitGetUserMedia() failed. Is the MediaStream flag enabled in about:flags?");
+                console.log("webkitGetUserMedia failed with exception: " + e.message);
+            }
+        }
+    }
+
+    function createPeerConnection() {
+        try {
+            //added->
+            var PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+            //pc = new webkitRTCPeerConnection({iceServers:[]}, onIceCandidate); //00
+            pc = new PeerConnection({"iceServers": [{"url": "stun:stun.l.google.com:19302"}]});
+            pc.onicecandidate = onIceCandidate;
+            //pc = new webkitRTCPeerConnection("{pc_config}", onIceCandidate); //00
+            console.log("Created webkitPeerConnnection00 with config \"{pc_config}\".");
+        } catch (e) {
+            console.log("Failed to create PeerConnection, exception: " + e.message);
+            alert("Cannot create PeerConnection object; Is the 'PeerConnection' flag enabled in about:flags?");
+            return;
+        }
+
+        pc.onconnecting = onSessionConnecting;
+        pc.onopen = onSessionOpened;
+        pc.onaddstream = onRemoteStreamAdded;
+        pc.onremovestream = onRemoteStreamRemoved;
+    }
+
+    function maybeStart() {
+        if (!started && localStream && channelReady) {
+            setStatus("Connecting...");
+            console.log("Creating PeerConnection.");
+            createPeerConnection();
+            console.log("Adding local stream.");
+            pc.addStream(localStream);
+            started = true;
+            // Caller initiates offer to peer.
+            if (initiator)
+                doCall();
+        }
+        console.log("Done");
+    }
+
+    function setStatus(state) {
+        footer.innerHTML = state;
+    }
+
+    // added!
+
+    function doCall() {
+        console.log("Send offer to peer");
+        pc.createOffer(
+                gotLocalDescription,
+                function (error) {
+                    console.log(error)
+                },
+                {'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true}}
+        );
+        //pc.startIce();
+    }
+
+    function gotLocalDescription(description) {
+        pc.setLocalDescription(description);
+        sendMessage(description);
+        //sendMessage({type: 'offer', sdp: description.sdp});
+    }
+
+    function doAnswer() {
+        pc.createAnswer(
+                gotLocalDescription,
+                function (error) {
+                    console.log(error)
+                },
+                {'mandatory': {'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true}}
+        );
+    }
+    
+    function sendMessage(message) {
+        var msgString = JSON.stringify(message);
+        console.log('C->S: ' + msgString);
+        path = '/{PATH}/message?r={room_key}' + '&u={me}';
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', path, true);
+        console.log("open");
+        xhr.send(msgString);
+        console.log("send");
+    }
+
+    function processSignalingMessage(message) {
+        console.log("Processing signaling message: " + message);
+        var msg = JSON.parse(message);
+        var SessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
+        
+        if (msg.type === 'offer') {
+            // Callee creates PeerConnection
+            if (!initiator && !started)
+                maybeStart();
+            pc.setRemoteDescription(new SessionDescription(msg));
+            doAnswer();
+
+        } else if (msg.type === 'answer' && started) {
+            pc.setRemoteDescription(new SessionDescription(msg));
+
+        } else if (msg.type === 'candidate' && started) {
+            var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
+            var candidate = new IceCandidate({sdpMLineIndex: msg.label, candidate: msg.candidate});
+            pc.addIceCandidate(candidate);
+            
+        } else if (msg.type === 'bye' && started) {
+            onRemoteHangup();
+        }
+    }
+
+    function onChannelOpened() {
+        console.log('Channel opened for token:{token}');
+        channel.send('token:{token}');
+        channelReady = true;
+        if (initiator) maybeStart();
+    }
+
+    function onChannelMessage(message) {
+        console.log('S->C: ' + message.data);
+        processSignalingMessage(message.data);
+    }
+    function onChannelError() {
+        console.log('Channel error for token: {token}');
+    }
+    function onChannelClosed() {
+        console.log('Channel closed for token: {token}');
+        alert('Channel closed for user ' + (initiator + 1) + ' with token {token}.');
+        channel = null;
+    }
+
+    function onUserMediaSuccess(stream) {
+        console.log("User has granted access to local media.");
+        var url = URL.createObjectURL(stream);
+        console.log(url.toString());
+        localVideo.style.opacity = 1;
+        localVideo.src = url;
+        localStream = stream;
+        // Caller creates PeerConnection.
+        if (initiator) maybeStart();
+    }
+    function onUserMediaError(error) {
+        console.log("Failed to get access to local media. Error code was " + error.code);
+        alert("Failed to get access to local media. Error code was " + error.code + ".");
+    }
+
+    function onIceCandidate(event) {
+        console.log("214");
+        if (event.candidate) {
+            sendMessage({
+                type: 'candidate',
+                label: event.candidate.label,
+                id: event.candidate.sdpMid,
+                candidate: event.candidate.candidate
+            });
+        }
+    }
+
+    function onSessionConnecting(message) {
+        console.log("Session connecting.");
+    }
+    
+    function onSessionOpened(message) {
+        console.log("Session opened.");
+    }
+    
+    function onRemoteStreamAdded(event) {
+        console.log("Remote stream added.");
+        var url = URL.createObjectURL(event.stream);
+        console.log(url.toString());
+        miniVideo.src = localVideo.src;
+        remoteVideo.src = url;
+        waitForRemoteVideo();
+    }
+    
+    function onRemoteStreamRemoved(event) {
+        console.log("Remote stream removed.");
+    }
+
+    function onHangup() {
+        console.log("Hanging up.");
+        started = false;    // Stop processing any message
+        transitionToDone();
+        pc.close();
+        // will trigger BYE from server
+        socket.close();
+        pc = null;
+    }
+
+    function onRemoteHangup() {
+        console.log('Session terminated.');
+        started = false;    // Stop processing any message
+        transitionToWaiting();
+        pc.close();
+        pc = null;
+        initiator = 0;
+    }
+
+    function waitForRemoteVideo() {
+        console.log("Waiting for remote video.");
+        if (remoteVideo.currentTime > 0) {
+            transitionToActive();
+        } else {
+            setTimeout(waitForRemoteVideo, 100);
+        }
+    }
+    
+    function transitionToActive() {
+        console.log("Video conference transiting to active state.");
+        remoteVideo.style.opacity = 1;
+        card.style.webkitTransform = "rotateY(180deg)";
+        setTimeout(function () {
+            localVideo.src = "";
+        }, 500);
+        setTimeout(function () {
+            miniVideo.style.opacity = 1;
+        }, 1000);
+        setStatus("<input type=\"button\" id=\"hangup\" value=\"Hang up\" onclick=\"onHangup()\" />");
+    }
+    
+    function transitionToWaiting() {
+        console.log("Video conference transiting to waiting state.");
+        card.style.webkitTransform = "rotateY(0deg)";
+        setTimeout(function () {
+            localVideo.src = miniVideo.src;
+            miniVideo.src = "";
+            remoteVideo.src = ""
+        }, 500);
+        miniVideo.style.opacity = 0;
+        remoteVideo.style.opacity = 0;
+        resetStatus();
+    }
+    
+    function transitionToDone() {
+        console.log("Video conference transiting to done state.");
+        localVideo.style.opacity = 0;
+        remoteVideo.style.opacity = 0;
+        miniVideo.style.opacity = 0;
+        setStatus("You have left the call. <a href=\"{room_link}\">Click here</a> to rejoin.");
+    }
+    
+    function enterFullScreen() {
+        console.log("Entering full screen mode.");
+        remote.webkitRequestFullScreen();
+    }
+
+    if (!window.WebSocket)
+        alert("WebSocket not supported by this browser");
+
+    setTimeout(initialize, 1);
+    
+</script>
+<div id="container" ondblclick="enterFullScreen()">
+    <div id="card">
+        <div id="local">
+            <video width="100%" height="100%" id="localVideo" autoplay="autoplay"/>
+        </div>
+        <div id="remote">
+            <video width="100%" height="100%" id="remoteVideo" autoplay="autoplay">
+            </video>
+            <div id="mini">
+                <video width="100%" height="100%" id="miniVideo" autoplay="autoplay"/>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+    </div>
+</div>
+<a href="http://www.webrtc.org">
+    <img id="logo" alt="WebRTC" src="images/webrtc_black_20p.png">
+</a>
+</body>
+</html>
+<!-- END: main -->
