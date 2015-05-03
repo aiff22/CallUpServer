@@ -116,7 +116,7 @@ public class RequestServlet extends HttpServlet {
 
     }
 
-    private void msg(HttpServletRequest req, HttpServletResponse resp) {
+    private void msg(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         Integer login = Integer.valueOf(req.getParameterValues("login")[0]);
         String pass = req.getParameterValues("pass")[0];
@@ -126,9 +126,9 @@ public class RequestServlet extends HttpServlet {
         logger.info("User " + Integer.toString(login) + "send message to user " + Integer.toString(id_contact));
 
         try {
-            resp.getWriter().print(Integer.toString(db.send_msg(login, pass, id_contact, msg_text)));
+            resp.getWriter().print(db.send_msg(login, pass, id_contact, msg_text));
         } catch (SQLException e) {
-//>>
+            resp.getWriter().print("-3");
             e.printStackTrace();
         } catch (IOException e) {
 //>>

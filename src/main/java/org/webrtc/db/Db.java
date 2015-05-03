@@ -58,8 +58,8 @@ public class Db {
             stat.execute("create table users(id INT primary key, password VARCHAR (20), id_name VARCHAR (20), status BIGINT, email VARCHAR (20))");
             stat.execute("create table contacts(id INT, id_contact int, contact_name VARCHAR (20), contact_status INT)");
             stat.execute("create table calls(id INT, id_contact int, call_date TIMESTAMP , call_status INT)");
-            stat.execute("create table messages(id INT, id_contact int, msg_text VARCHAR (200), msg_status INT)");
-            stat.execute("create table events(id INT, id_contact INT, event_text VARCHAR (200), event_type INT)");
+            stat.execute("create table messages(id INT, id_contact int, msg_text VARCHAR (200), msg_status INT, msg_date TIMESTAMP)");
+            stat.execute("create table events(id INT, id_contact INT, event_text VARCHAR (200), event_type INT, event_date TIMESTAMP)");
 
 
 
@@ -112,11 +112,11 @@ public class Db {
 
             res = stat.executeQuery("select * from messages where id = " + login);
             while (res.next())
-                list.add(Arrays.asList("messages", res.getString("id_contact"), res.getString("msg_text"), res.getString("msg_status")));
+                list.add(Arrays.asList("messages", res.getString("id_contact"), res.getString("msg_text"), res.getString("msg_status"), res.getString("msg_date")));
 
             res = stat.executeQuery("select * from events where id = " + login);
             while (res.next())
-                list.add(Arrays.asList("events", res.getString("id_contact"), res.getString("event_text"), res.getString("event_type")));
+                list.add(Arrays.asList("events", res.getString("id_contact"), res.getString("event_text"), res.getString("event_type"), res.getString("event_date")));
 
             stat.close();
             conn.close();
@@ -216,27 +216,41 @@ public class Db {
         // *** Messages ***
 
         insertTableSQL = "INSERT INTO messages"
-                + "(id, id_contact, msg_text, msg_status) VALUES"
-                + "(?,?,?,?)";
+                + "(id, id_contact, msg_text, msg_status, msg_date) VALUES"
+                + "(?,?,?,?,?)";
 
         preparedStatement = conn.prepareStatement(insertTableSQL);
         preparedStatement.setInt(1, login);
         preparedStatement.setInt(2, 00000001);
         preparedStatement.setString(3, "This is test incoming message");
-        preparedStatement.setInt(4, 1);
+        preparedStatement.setInt(4, 3);
+        preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
+        preparedStatement.executeUpdate();
+
+        insertTableSQL = "INSERT INTO messages"
+                + "(id, id_contact, msg_text, msg_status, msg_date) VALUES"
+                + "(?,?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setString(3, "This is new unread message");
+        preparedStatement.setInt(4, 2);
+        preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
         preparedStatement.executeUpdate();
 
         // *** Events ***
 
         insertTableSQL = "INSERT INTO events"
-                + "(id, id_contact, event_text, event_type) VALUES"
-                + "(?,?,?,?)";
+                + "(id, id_contact, event_text, event_type, event_date) VALUES"
+                + "(?,?,?,?,?)";
 
         preparedStatement = conn.prepareStatement(insertTableSQL);
         preparedStatement.setInt(1, login);
         preparedStatement.setInt(2, 00000001);
         preparedStatement.setString(3, "Hi, friend! Welcome to CallUp!");
         preparedStatement.setInt(4, 1);
+        preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
         preparedStatement.executeUpdate();
 
         // <- Insert test data
@@ -270,9 +284,10 @@ public class Db {
             List<List<String>> list = new ArrayList<List<String>>();
             rs = stat.executeQuery("select * from events where id = " + login);
             while (rs.next())
-                list.add(Arrays.asList("events", rs.getString("id_contact"), rs.getString("event_text"), rs.getString("event_type")));
+                list.add(Arrays.asList("events", rs.getString("id_contact"), rs.getString("event_text"), rs.getString("event_type"), rs.getString(
+                "event_date")));
 
-            rs = stat.executeQuery("select (" + System.currentTimeMillis() + " - status < 12000) from users where id IN " +
+            rs = stat.executeQuery("select (" + System.currentTimeMillis() + " - status < 12000) as online from users where id IN " +
                     "(select id_contact from contacts where id = " + login +
                     " AND contact_status = 2)");
 
@@ -286,7 +301,10 @@ public class Db {
 
             preparedStatement.close();
 
-            list.add(Arrays.asList("friends_online", rs.toString()));
+            List online_status = new ArrayList();
+            online_status.add("friends_online");
+            while (rs.next()) online_status.add(rs.getBoolean("online"));
+            list.add(online_status);
 
             return list;
 
@@ -294,7 +312,6 @@ public class Db {
             logger.info("User " + Integer.toString(login) + " not found!");
             throw new RuntimeException("User not found");
         }
-
     }
 
     public String call(final Integer login, String pass, final Integer id_contact) throws SQLException {
@@ -441,7 +458,7 @@ public class Db {
         }
     }
 
-    public int send_msg(Integer login, String pass, Integer id_contact, String msg_text) throws SQLException {
+    public String send_msg(Integer login, String pass, Integer id_contact, String msg_text) throws SQLException {
 
         Connection conn = null;
         conn = DriverManager.getConnection("jdbc:h2:~/users");
@@ -503,15 +520,15 @@ public class Db {
 
                 conn.close();
 
-                return 1;
+                return String.valueOf(new Timestamp(new Date().getTime()));
             } else {
                 logger.info("No peer " + Integer.toString(id_contact) + "is found!");
-                throw new RuntimeException("Peer does not exist");
+                return "-2";
             }
 
         } else {
             logger.info("User " + Integer.toString(login) + " not found!");
-            throw new RuntimeException("User not found");
+            return "-1";
         }
     }
 
