@@ -50,11 +50,35 @@ public class Db {
 
 
             //stat.execute("DROP table users");
+            //stat.execute("DROP table contacts");
+            //stat.execute("DROP table calls");
+            //stat.execute("DROP table messages");
+            //stat.execute("DROP table events");
+
             stat.execute("create table users(id INT primary key, password VARCHAR (20), id_name VARCHAR (20), status BIGINT, email VARCHAR (20))");
-            stat.execute("create table contacts(id INT primary key, id_contact int, contact_name VARCHAR (20), contact_status INT)");
-            stat.execute("create table calls(id INT primary key, id_contact int, call_date TIMESTAMP , call_status INT)");
-            stat.execute("create table messages(id INT primary key, id_contact int, msg_text VARCHAR (200), msg_status INT)");
-            stat.execute("create table events(id INT primary key, id_contact INT, event_text VARCHAR (200), event_type INT)");
+            stat.execute("create table contacts(id INT, id_contact int, contact_name VARCHAR (20), contact_status INT)");
+            stat.execute("create table calls(id INT, id_contact int, call_date TIMESTAMP , call_status INT)");
+            stat.execute("create table messages(id INT, id_contact int, msg_text VARCHAR (200), msg_status INT)");
+            stat.execute("create table events(id INT, id_contact INT, event_text VARCHAR (200), event_type INT)");
+
+
+
+            // *** Add test user ***
+
+            /*conn = DriverManager.getConnection("jdbc:h2:~/users");
+
+            String insertTableSQL = "INSERT INTO users"
+                    + "(id, password, id_name, status, email) VALUES"
+                    + "(?,?,?,?,?)";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, 00000001);
+            preparedStatement.setString(2, "1234");
+            preparedStatement.setString(3, "TestCallUp");
+            preparedStatement.setLong(4, System.currentTimeMillis());
+            preparedStatement.setString(5, "callup.com@gmail.com");
+            preparedStatement.executeUpdate();
+            */
 
             stat.close();
             conn.close();
@@ -63,6 +87,8 @@ public class Db {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
     public List<List<String>> getclient(Integer login, String pass) throws SQLException {
@@ -78,7 +104,7 @@ public class Db {
             List<List<String>> list = new ArrayList<List<String>>();
             ResultSet res = stat.executeQuery("select * from contacts where id = " + login);
             while (res.next())
-                list.add(Arrays.asList("contacts", res.getString("id_contact"), res.getString("name_contact"), res.getString("contact_status")));
+                list.add(Arrays.asList("contacts", res.getString("id_contact"), res.getString("contact_name"), res.getString("contact_status")));
 
             res = stat.executeQuery("select * from calls where id = " + login);
             while (res.next())
@@ -119,7 +145,7 @@ public class Db {
         return exist ? true : false;
     }
 
-    public int register(Integer login, String pass, String id_name, String email) throws SQLException {
+    public List<List<String>> register(Integer login, String pass, String id_name, String email) throws SQLException {
 
         Connection conn = null;
         conn = DriverManager.getConnection("jdbc:h2:~/users");
@@ -136,10 +162,89 @@ public class Db {
         preparedStatement.setString(5, email);
         preparedStatement.executeUpdate();
 
+
+        // Insert test data ->
+
+        // *** Contacts ***
+
+        insertTableSQL = "INSERT INTO contacts"
+                + "(id, id_contact, contact_name, contact_status) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setString(3, "CallUpTest");
+        preparedStatement.setInt(4, 2);
+        preparedStatement.executeUpdate();
+
+        // *** Calls ***
+
+        insertTableSQL = "INSERT INTO calls"
+                + "(id, id_contact, call_date, call_status) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+        preparedStatement.setInt(4, 1);
+        preparedStatement.executeUpdate();
+
+        insertTableSQL = "INSERT INTO calls"
+                + "(id, id_contact, call_date, call_status) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+        preparedStatement.setInt(4, 2);
+        preparedStatement.executeUpdate();
+
+        insertTableSQL = "INSERT INTO calls"
+                + "(id, id_contact, call_date, call_status) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+        preparedStatement.setInt(4, 3);
+        preparedStatement.executeUpdate();
+
+        // *** Messages ***
+
+        insertTableSQL = "INSERT INTO messages"
+                + "(id, id_contact, msg_text, msg_status) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setString(3, "This is test incoming message");
+        preparedStatement.setInt(4, 1);
+        preparedStatement.executeUpdate();
+
+        // *** Events ***
+
+        insertTableSQL = "INSERT INTO events"
+                + "(id, id_contact, event_text, event_type) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, login);
+        preparedStatement.setInt(2, 00000001);
+        preparedStatement.setString(3, "Hi, friend! Welcome to CallUp!");
+        preparedStatement.setInt(4, 1);
+        preparedStatement.executeUpdate();
+
+        // <- Insert test data
+
         preparedStatement.close();
         conn.close();
         logger.info("User added: login = " + Integer.toString(login) + "; password = " + pass);
-        return 1;
+        return getclient(login, pass);
     }
 
     public List<List<String>> hello(Integer login, String pass) throws SQLException {

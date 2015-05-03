@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3734802360">
-    <data-source source="LOCAL" name="H2 - users" uuid="0e60239e-1a95-4561-933a-b4ea8072d0b0">
+  <component name="DataSourceManagerImpl" format="xml" hash="3518174557">
+    <data-source source="LOCAL" name="H2 - users" uuid="8d7fee72-facf-4b7d-b126-c09a4e086deb">
       <driver-ref>h2.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:~/users</jdbc-url>
+      <jdbc-url>jdbc:h2:file:$USER_HOME$/users</jdbc-url>
       <libraries />
     </data-source>
   </component>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Enumeration;
@@ -178,12 +179,16 @@ public class RequestServlet extends HttpServlet {
         logger.info("User " + Integer.toString(login) + "says hello.");
         try {
 
-            Kryo kryo = new Kryo();
+            /*Kryo kryo = new Kryo();
             OutputStream stream = resp.getOutputStream();
             Output out = new Output(stream);
             kryo.writeObject(out, db.hello(login, pass));
             out.flush();
-            out.close();
+            out.close();*/
+
+            OutputStream out = resp.getOutputStream();
+            ObjectOutputStream stream = new ObjectOutputStream(out);
+            stream.writeObject(db.hello(login, pass));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -201,7 +206,11 @@ public class RequestServlet extends HttpServlet {
 
         if (!db.checkId(login)) {
             try {
-                resp.getWriter().print(Integer.toString(db.register(login, pass, name, email)));
+
+                OutputStream out = resp.getOutputStream();
+                ObjectOutputStream stream = new ObjectOutputStream(out);
+                stream.writeObject(db.register(login, pass, name, email));
+
             } catch (IOException e) {
                 try {
                     resp.getWriter().print("-1");
@@ -254,7 +263,15 @@ public class RequestServlet extends HttpServlet {
             out.flush();
             out.close();
 */
-            resp.getWriter().print(db.getclient(login, pass));
+
+            OutputStream out = resp.getOutputStream();
+            ObjectOutputStream stream = new ObjectOutputStream(out);
+            stream.writeObject(db.getclient(login, pass));
+            //stream.flush();
+            //stream.close();
+
+            //resp.getWriter().print(db.getclient(login, pass));
+
         } catch (IOException e) {
             try {
                 resp.getWriter().print("-2");
