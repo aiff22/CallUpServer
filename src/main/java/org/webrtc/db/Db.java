@@ -27,11 +27,6 @@ import java.util.logging.Logger;
 //                      2 - friend
 //                      3 - incoming contact, status pending
 
-// Message status:
-//
-//                      1 - new
-//                      0 - read
-
 // Call status:
 //
 //                      1 - outcoming
@@ -475,14 +470,15 @@ public class Db {
                 // Insert data into sender message table
 
                 String insertTableSQL = "INSERT INTO messages"
-                        + "(id, id_contact, msg_text, msg_status) VALUES"
-                        + "(?,?,?,?)";
+                        + "(id, id_contact, msg_text, msg_status, msg_date) VALUES"
+                        + "(?,?,?,?,?)";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
                 preparedStatement.setInt(1, login);
                 preparedStatement.setInt(2, id_contact);
                 preparedStatement.setString(3, msg_text);
                 preparedStatement.setInt(4, 1);
+                preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
                 preparedStatement.executeUpdate();
 
                 preparedStatement.close();
@@ -747,10 +743,10 @@ public class Db {
 
         if (rs.next()) {
 
-            String insertTableSQL = "UPDATE messages SET msg_status = ? WHERE id = ? AND id_contact = ?";
+            String insertTableSQL = "UPDATE messages SET msg_status = ? WHERE id = ? AND id_contact = ? AND msg_status = 2";
 
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(1, 3);
             preparedStatement.setInt(2, login);
             preparedStatement.setInt(3, id_contact);
             preparedStatement.executeUpdate();
