@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3518174557">
+  <component name="DataSourceManagerImpl" format="xml" hash="2555491568">
     <data-source source="LOCAL" name="H2 - users" uuid="8d7fee72-facf-4b7d-b126-c09a4e086deb">
       <driver-ref>h2.embedded</driver-ref>
       <synchronize>true</synchronize>

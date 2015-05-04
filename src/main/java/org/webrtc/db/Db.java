@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 // Contact status:
 //
+//                      0 - in contact list, friend: status pending
 //                      1 - in contact list
 //                      2 - friend
 //                      3 - incoming contact, status pending
@@ -43,6 +44,14 @@ public class Db {
             Connection conn = DriverManager.getConnection("jdbc:h2:~/users");
             Statement stat = conn.createStatement();
 
+            String insertTableSQL = "DELETE  FROM contacts WHERE id = 91176959 AND id_contact = 51892423";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+            preparedStatement.executeUpdate();
+
+            insertTableSQL = "DELETE  FROM contacts WHERE id = 51892423 AND id_contact = 91176959";
+            preparedStatement = conn.prepareStatement(insertTableSQL);
+            preparedStatement.executeUpdate();
 
             //stat.execute("DROP table users");
             //stat.execute("DROP table contacts");
@@ -55,7 +64,6 @@ public class Db {
             stat.execute("create table calls(id INT, id_contact int, call_date TIMESTAMP , call_status INT)");
             stat.execute("create table messages(id INT, id_contact int, msg_text VARCHAR (200), msg_status INT, msg_date TIMESTAMP)");
             stat.execute("create table events(id INT, id_contact INT, event_text VARCHAR (200), event_type INT, event_date TIMESTAMP)");
-
 
 
             // *** Add test user ***
@@ -112,6 +120,26 @@ public class Db {
             res = stat.executeQuery("select * from events where id = " + login);
             while (res.next())
                 list.add(Arrays.asList("events", res.getString("id_contact"), res.getString("event_text"), res.getString("event_type"), res.getString("event_date")));
+
+
+            ResultSet rs = stat.executeQuery("select (" + System.currentTimeMillis() + " - status < 12000) as online from users where id IN " +
+                    "(select id_contact from contacts where id = " + login +
+                    " AND contact_status = 2)");
+
+            // Delete all events for user
+
+            String insertTableSQL = "DELETE FROM events WHERE id = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, login);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+
+            List online_status = new ArrayList();
+            online_status.add("friends_online");
+            while (rs.next()) online_status.add(String.valueOf(rs.getBoolean("online")));
+            list.add(online_status);
 
             stat.close();
             conn.close();
@@ -280,7 +308,7 @@ public class Db {
             rs = stat.executeQuery("select * from events where id = " + login);
             while (rs.next())
                 list.add(Arrays.asList("events", rs.getString("id_contact"), rs.getString("event_text"), rs.getString("event_type"), rs.getString(
-                "event_date")));
+                        "event_date")));
 
             rs = stat.executeQuery("select (" + System.currentTimeMillis() + " - status < 12000) as online from users where id IN " +
                     "(select id_contact from contacts where id = " + login +
@@ -298,7 +326,7 @@ public class Db {
 
             List online_status = new ArrayList();
             online_status.add("friends_online");
-            while (rs.next()) online_status.add(rs.getBoolean("online"));
+            while (rs.next()) online_status.add(String.valueOf(rs.getBoolean("online")));
             list.add(online_status);
 
             return list;
@@ -545,10 +573,14 @@ public class Db {
             if (rs.next()) {
 
                 rs = stat.executeQuery("select * from contacts where id = " + login + " AND id_contact = " + id_contact);
+                Boolean isNext = rs.next();
 
-                if (!rs.next() || (be_friends == 1 && Integer.valueOf(rs.getString("contact_status")) == 1)) {
+                if (!isNext || (be_friends == 1 && Integer.valueOf(rs.getString("contact_status")) != 2)) {
 
-                    if (!rs.next()) {
+                    if (!isNext) {
+
+                        logger.info("User " + Integer.toString(login) + " added peer to contact table");
+
                         String insertTableSQL = "INSERT INTO contacts"
                                 + "(id, id_contact, contact_name, contact_status) VALUES"
                                 + "(?,?,?,?)";
@@ -557,7 +589,7 @@ public class Db {
                         preparedStatement.setInt(1, login);
                         preparedStatement.setInt(2, id_contact);
                         preparedStatement.setString(3, contact_name);
-                        preparedStatement.setInt(4, 1);
+                        preparedStatement.setInt(4, be_friends == 1 ? 0 : 1);
                         preparedStatement.executeUpdate();
 
                         preparedStatement.close();
@@ -567,51 +599,91 @@ public class Db {
 
                         // Add contact to peer contact table
 
-                        String insertTableSQL = "INSERT INTO contacts"
-                                + "(id, id_contact, name_contact, contact_status) VALUES"
-                                + "(?,?,?,?)";
+                        rs = stat.executeQuery("select contact_status as status from contacts where id = " + String.valueOf(id_contact) + " AND id_contact = " + String.valueOf(login));
+                        isNext = rs.next();
+
+                        if (isNext) {
+
+                            logger.info("User " + Integer.toString(login) + " update peer's contact table");
+
+                            String insertTableSQL = "UPDATE contacts SET contact_status = ? WHERE id = ? AND id_contact = ?";
+
+                            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+                            preparedStatement.setInt(1, rs.getInt("status") == 0 ? 2 : 3);
+                            preparedStatement.setInt(2, id_contact);
+                            preparedStatement.setInt(3, login);
+                            preparedStatement.executeUpdate();
+
+                            preparedStatement.close();
+
+                        } else {
+
+                            logger.info("User " + Integer.toString(login) + " adds new row to peer's contact table");
+
+                            String insertTableSQL = "INSERT INTO contacts"
+                                    + "(id, id_contact, contact_name, contact_status) VALUES"
+                                    + "(?,?,?,?)";
+
+                            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+                            preparedStatement.setInt(1, id_contact);
+                            preparedStatement.setInt(2, login);
+                            preparedStatement.setString(3, id_name);
+                            preparedStatement.setInt(4, 3);
+                            preparedStatement.executeUpdate();
+
+                            preparedStatement.close();
+                        }
+                        // Add contact to peer events table
+
+                        String insertTableSQL = "INSERT INTO events"
+                                + "(id, id_contact, event_text, event_type, event_date) VALUES"
+                                + "(?,?,?,?,?)";
 
                         PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
                         preparedStatement.setInt(1, id_contact);
                         preparedStatement.setInt(2, login);
                         preparedStatement.setString(3, id_name);
-                        preparedStatement.setInt(4, 3);
+                        preparedStatement.setInt(4, 4);
+                        preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
                         preparedStatement.executeUpdate();
 
                         preparedStatement.close();
 
-                        // Add contact to peer events table
+                        // Update user contact table
 
-                        insertTableSQL = "INSERT INTO events"
-                                + "(id, id_contact, event_text, event_type) VALUES"
-                                + "(?,?,?,?)";
+                        insertTableSQL = "UPDATE contacts SET contact_status = ? WHERE id = ? AND id_contact = ?";
 
                         preparedStatement = conn.prepareStatement(insertTableSQL);
-                        preparedStatement.setInt(1, id_contact);
+                        if (isNext) preparedStatement.setInt(1, rs.getInt("status") == 0 ? 2 : 0);
+                        else preparedStatement.setInt(1, 0);
                         preparedStatement.setInt(2, login);
-                        preparedStatement.setString(3, id_name);
-                        preparedStatement.setInt(4, 4);
+                        preparedStatement.setInt(3, id_contact);
                         preparedStatement.executeUpdate();
 
                         preparedStatement.close();
 
                     }
 
+                    logger.info("User " + String.valueOf(login) + " added user " + String.valueOf(id_contact) + " to friends");
+
                     return 1;
 
                 } else {
                     logger.info("The contact is already in the list!");
-                    if (be_friends == 0) throw new RuntimeException("The contact exists in your phone book");
-                    else throw new RuntimeException("The contact is your friend");
+                    if (be_friends == 0)
+                        return 2; //throw new RuntimeException("The contact exists in your phone book");
+                    else return 3; // throw new RuntimeException("The contact is your friend");
                 }
 
             } else {
                 logger.info("No peer " + Integer.toString(id_contact) + "is found!");
-                throw new RuntimeException("Peer does not exist");
+                return -2;
+                //throw new RuntimeException("Peer does not exist");
             }
         } else {
             logger.info("User " + Integer.toString(login) + " not found!");
-            throw new RuntimeException("User not found");
+            return -1;
+            //throw new RuntimeException("User not found");
         }
     }
 
@@ -657,12 +729,14 @@ public class Db {
 
             } else {
                 logger.info("Peer " + Integer.toString(id_contact) + " not found!");
-                throw new RuntimeException("Peer not found");
+                return -2;
+                //throw new RuntimeException("Peer not found");
             }
 
         } else {
             logger.info("User " + Integer.toString(login) + " not found!");
-            throw new RuntimeException("User not found");
+            return -1;
+            //throw new RuntimeException("User not found");
         }
     }
 
@@ -693,42 +767,24 @@ public class Db {
 
                 // Update peer's contact table
 
-                rs = stat.executeQuery("select * from contacts where id = " + id_contact + " AND id_contact = " + login);
 
-                if (Integer.valueOf(rs.getString("contact_status")) == 3) {
+                insertTableSQL = "UPDATE contacts SET contact_status = ? WHERE id = ? AND id_contact = ?";
 
-                    insertTableSQL = "DELETE * FROM contacts WHERE id = ? AND id_contact = ?";
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, 1);
+                preparedStatement.setInt(2, id_contact);
+                preparedStatement.setInt(3, login);
+                preparedStatement.executeUpdate();
 
-                    preparedStatement = conn.prepareStatement(insertTableSQL);
-                    preparedStatement.setInt(1, id_contact);
-                    preparedStatement.setInt(2, login);
-                    preparedStatement.executeUpdate();
-
-                    preparedStatement.close();
-
-                } else {
-
-                    insertTableSQL = "UPDATE contacts SET contact_status = ? WHERE id = ? AND id_contact = ?";
-
-                    preparedStatement = conn.prepareStatement(insertTableSQL);
-                    preparedStatement.setInt(1, 1);
-                    preparedStatement.setInt(2, id_contact);
-                    preparedStatement.setInt(3, login);
-                    preparedStatement.executeUpdate();
-
-                    preparedStatement.close();
-                }
-
+                preparedStatement.close();
                 return 1;
 
-            } else {
-                logger.info("Peer " + Integer.toString(id_contact) + " not found!");
-                throw new RuntimeException("Peer not found");
-            }
+            } else return -2;
 
         } else {
             logger.info("User " + Integer.toString(login) + " not found!");
-            throw new RuntimeException("User not found");
+            return -1;
+            //throw new RuntimeException("User not found");
         }
 
     }
