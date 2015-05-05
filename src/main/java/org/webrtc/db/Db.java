@@ -46,14 +46,14 @@ public class Db {
             Connection conn = DriverManager.getConnection("jdbc:h2:~/users");
             Statement stat = conn.createStatement();
 
-            String insertTableSQL = "DELETE  FROM contacts WHERE id = 91176959 AND id_contact = 51892423";
+            /*String insertTableSQL = "DELETE  FROM contacts WHERE id = 91176959 AND id_contact = 51892423";
 
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.executeUpdate();
 
             insertTableSQL = "DELETE  FROM contacts WHERE id = 51892423 AND id_contact = 91176959";
             preparedStatement = conn.prepareStatement(insertTableSQL);
-            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();*/
 
             //stat.execute("DROP table users");
             //stat.execute("DROP table contacts");
@@ -354,6 +354,10 @@ public class Db {
 
             if (rs.next()) {
 
+                logger.info("User " + Integer.toString(login) + " makes a call to user " + Integer.toString(id_contact));
+
+                // Update peer's event table
+
                 String insertTableSQL = "INSERT INTO events"
                         + "(id, id_contact, event_text, event_type) VALUES"
                         + "(?,?,?,?)";
@@ -367,8 +371,10 @@ public class Db {
 
                 preparedStatement.close();
 
+                // Update user's calls table
+
                 insertTableSQL = "INSERT INTO calls"
-                        + "(id, id_contact, event_text, event_type) VALUES"
+                        + "(id, id_contact, call_date, call_status) VALUES"
                         + "(?,?,?,?)";
 
                 preparedStatement = conn.prepareStatement(insertTableSQL);
@@ -387,21 +393,28 @@ public class Db {
 
                 final AtomicInteger sec = new AtomicInteger();
 
+                final Connection finalConn = conn;
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
 
                         try {
 
-                            ResultSet rs = stat.executeQuery("select * from events where id = " + login +
+                            ResultSet rs = stat.executeQuery("select event_text from events as room where id = " + login +
                                     " AND id_contact = " + id_contact + " AND event_type = 2");
 
-                            if (rs.next() || sec.get() == 20) {
+                            if ((rs.next() && !rs.getString("room").equals("")) || sec.get() > 20) {
 
-                                room[0] = rs.getString("event_text");
+                                room[0] = rs.getString("room");
+                                logger.info("Response room returned: " + room[0]);
                                 timer.cancel();
+                                stat.close();
+                                finalConn.close();
 
-                            } else sec.incrementAndGet();
+                            } else {
+                                sec.incrementAndGet();
+                                logger.info("Time passed: " + String.valueOf(sec.get()));
+                            }
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -410,10 +423,6 @@ public class Db {
 
                     }
                 }, 1000, 1000);
-
-                stat.close();
-                conn.close();
-                return room[0];
 
             } else {
                 logger.info("No peer " + Integer.toString(id_contact) + "is found!");
@@ -439,7 +448,7 @@ public class Db {
 
         if (rs.next()) {
 
-            String room = "-1";
+            String room = "-2";
             Integer callStatus = 3;
 
             if (decision == 1) {
@@ -447,9 +456,13 @@ public class Db {
                 callStatus = 2;
             }
 
+            // Update peer's event table
+
             String insertTableSQL = "INSERT INTO events"
                     + "(id, id_contact, event_text, event_type) VALUES"
                     + "(?,?,?,?)";
+
+            logger.info("User " + Integer.toString(login) + " generated room " + room);
 
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id_contact);
@@ -463,7 +476,7 @@ public class Db {
             // Add incoming call to user table
 
             insertTableSQL = "INSERT INTO calls"
-                    + "(id, id_contact, event_text, event_type) VALUES"
+                    + "(id, id_contact, call_date, call_type) VALUES"
                     + "(?,?,?,?)";
 
             preparedStatement = conn.prepareStatement(insertTableSQL);
@@ -479,7 +492,8 @@ public class Db {
 
         } else {
             logger.info("User " + Integer.toString(login) + " not found!");
-            throw new RuntimeException("User not found");
+            return "-3";
+            //throw new RuntimeException("User not found");
         }
     }
 
