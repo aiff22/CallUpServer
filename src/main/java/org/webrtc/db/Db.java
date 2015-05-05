@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 //                      2 - new call
 //                      3 - missing call
 //                      4 - new contact
+//                      5 - request accepted
+//                      6 - friend deleted
 
 // Contact status:
 //
@@ -643,7 +645,8 @@ public class Db {
                         preparedStatement.setInt(1, id_contact);
                         preparedStatement.setInt(2, login);
                         preparedStatement.setString(3, id_name);
-                        preparedStatement.setInt(4, 4);
+                        if (isNext) preparedStatement.setInt(4, rs.getInt("status") == 0 ? 5 : 4);
+                        else preparedStatement.setInt(4, 4);
                         preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
                         preparedStatement.executeUpdate();
 
@@ -725,6 +728,24 @@ public class Db {
 
                 preparedStatement.close();
 
+                // Add event to peer events table
+
+                insertTableSQL = "INSERT INTO events"
+                        + "(id, id_contact, event_text, event_type, event_date) VALUES"
+                        + "(?,?,?,?,?)";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, id_contact);
+                preparedStatement.setInt(2, login);
+                preparedStatement.setString(3, " ");
+                preparedStatement.setInt(4, 6);
+                preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+
+                //
+
                 return 1;
 
             } else {
@@ -777,6 +798,25 @@ public class Db {
                 preparedStatement.executeUpdate();
 
                 preparedStatement.close();
+
+                // Add event to peer events table
+
+                insertTableSQL = "INSERT INTO events"
+                        + "(id, id_contact, event_text, event_type, event_date) VALUES"
+                        + "(?,?,?,?,?)";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, id_contact);
+                preparedStatement.setInt(2, login);
+                preparedStatement.setString(3, " ");
+                preparedStatement.setInt(4, 6);
+                preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+
+                //
+
                 return 1;
 
             } else return -2;
