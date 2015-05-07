@@ -25,6 +25,7 @@ public class RequestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Enumeration<String> parameterNames = req.getParameterNames();
         String value = req.getParameterValues("request_type")[0];
+
         try {
 
             if (value.equals("getId")) getId(req, resp);

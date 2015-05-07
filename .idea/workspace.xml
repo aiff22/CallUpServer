@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1d72160c-deeb-4b1e-a443-2b99f4f9faad" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/org/webrtc/db/Db$1.class" afterPath="$PROJECT_DIR$/target/classes/org/webrtc/db/Db$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT/WEB-INF/classes/org/webrtc/db/Db$1.class" afterPath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT/WEB-INF/classes/org/webrtc/db/Db$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/org/webrtc/db/Db.class" afterPath="$PROJECT_DIR$/target/classes/org/webrtc/db/Db.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT/WEB-INF/classes/org/webrtc/db/Db.class" afterPath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT/WEB-INF/classes/org/webrtc/db/Db.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/org/webrtc/web/RequestServlet.class" afterPath="$PROJECT_DIR$/target/classes/org/webrtc/web/RequestServlet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT/WEB-INF/classes/org/webrtc/web/RequestServlet.class" afterPath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT/WEB-INF/classes/org/webrtc/web/RequestServlet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT.war" afterPath="$PROJECT_DIR$/target/webrtc.sample-1.0-SNAPSHOT.war" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/webrtc/db/Db.java" afterPath="$PROJECT_DIR$/src/main/java/org/webrtc/db/Db.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/webrtc/web/RequestServlet.java" afterPath="$PROJECT_DIR$/src/main/java/org/webrtc/web/RequestServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="caller.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,9 +82,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -82,93 +90,82 @@
       <file leaf-file-name="Db.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/db/Db.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.17147435">
-              <caret line="396" column="48" selection-start-line="396" selection-start-column="48" selection-end-line="396" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.28619528">
+              <caret line="520" column="0" selection-start-line="520" selection-start-column="0" selection-end-line="520" selection-end-column="0" />
               <folding>
-                <element signature="e#16752#16753#0" expanded="true" />
-                <marker date="1430829303643" expanded="true" signature="1342:1409" placeholder="DELETE FROM ..." />
-                <marker date="1430829303643" expanded="true" signature="1580:1647" placeholder="DELETE FROM ..." />
-                <marker date="1430829303643" expanded="true" signature="1799:1815" placeholder="DROP table u..." />
-                <marker date="1430829303643" expanded="true" signature="1847:1866" placeholder="DROP table c..." />
-                <marker date="1430829303643" expanded="true" signature="1898:1914" placeholder="DROP table c..." />
-                <marker date="1430829303643" expanded="true" signature="1946:1965" placeholder="DROP table m..." />
-                <marker date="1430829303643" expanded="true" signature="1997:2014" placeholder="DROP table e..." />
-                <marker date="1430829303643" expanded="true" signature="2045:2163" placeholder="create table..users..." />
-                <marker date="1430829303643" expanded="true" signature="2193:2285" placeholder="create table..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="2315:2396" placeholder="create table..calls..." />
-                <marker date="1430829303643" expanded="true" signature="2426:2531" placeholder="create table..messages..." />
-                <marker date="1430829303643" expanded="true" signature="2561:2668" placeholder="create table..events..." />
-                <marker date="1430829303643" expanded="true" signature="2819:2942" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="3862:3922" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="4079:4113" placeholder="select * fro..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="4340:4371" placeholder="select * fro..calls..." />
-                <marker date="1430829303643" expanded="true" signature="4589:4623" placeholder="select * fro..messages..." />
-                <marker date="1430829303643" expanded="true" signature="4869:4901" placeholder="select * fro..events..." />
-                <marker date="1430829303643" expanded="true" signature="5159:5379" placeholder="select (miss..users..." />
-                <marker date="1430829303643" expanded="true" signature="5279:5378" placeholder="select id_co..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="5464:5495" placeholder="DELETE FROM ..." />
-                <marker date="1430829303643" expanded="true" signature="6449:6480" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="6880:6995" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="7468:7592" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="7944:8059" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="8411:8526" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="8878:8993" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="9374:9502" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="9927:10055" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="10504:10634" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="11551:11611" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="11686:11726" placeholder="UPDATE users..." />
-                <marker date="1430829303643" expanded="true" signature="12130:12162" placeholder="select * fro..events..." />
-                <marker date="1430829303643" expanded="true" signature="12429:12492" placeholder="select (miss..." />
-                <marker date="1430829303643" expanded="true" signature="12429:12649" placeholder="select (miss..users..." />
-                <marker date="1430829303643" expanded="true" signature="12549:12648" placeholder="select id_co..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="12727:12758" placeholder="DELETE FROM ..." />
-                <marker date="1430829303643" expanded="true" signature="13701:13761" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="13835:13866" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="14124:14256" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="14738:14869" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="15820:15973" placeholder="select * fro..events..." />
-                <marker date="1430829303643" expanded="true" signature="17487:17565" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="17882:18006" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="18549:18670" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="19595:19655" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="19742:19773" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="19920:20064" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="20655:20787" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="21269:21401" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="22510:22570" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="22699:22730" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="22818:22883" placeholder="select * fro..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="23245:23401" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="24067:24176" placeholder="select * fro..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="24451:24521" placeholder="UPDATE conta..." />
-                <marker date="1430829303643" expanded="true" signature="25180:25344" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="25970:26132" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="26891:26961" placeholder="UPDATE conta..." />
-                <marker date="1430829303643" expanded="true" signature="28678:28738" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="28812:28877" placeholder="select * fro..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="29012:29082" placeholder="UPDATE conta..." />
-                <marker date="1430829303643" expanded="true" signature="29514:29584" placeholder="UPDATE conta..." />
-                <marker date="1430829303643" expanded="true" signature="30001:30147" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="31356:31416" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="31490:31555" placeholder="select * fro..contacts..." />
-                <marker date="1430829303643" expanded="true" signature="31690:31743" placeholder="DELETE FROM ..." />
-                <marker date="1430829303643" expanded="true" signature="32128:32198" placeholder="UPDATE conta..." />
-                <marker date="1430829303643" expanded="true" signature="32615:32761" placeholder="INSERT INTO ..." />
-                <marker date="1430829303643" expanded="true" signature="33789:33849" placeholder="select * fro..users..." />
-                <marker date="1430829303643" expanded="true" signature="33924:33990" placeholder="UPDATE messa..." />
-                <marker date="1430829303643" expanded="true" signature="33924:34009" placeholder="UPDATE messa..." />
+                <marker date="1430995880620" expanded="true" signature="1436:1503" placeholder="DELETE FROM ..." />
+                <marker date="1430995880620" expanded="true" signature="1674:1741" placeholder="DELETE FROM ..." />
+                <marker date="1430995880620" expanded="true" signature="1893:1909" placeholder="DROP table u..." />
+                <marker date="1430995880620" expanded="true" signature="1941:1960" placeholder="DROP table c..." />
+                <marker date="1430995880620" expanded="true" signature="1992:2008" placeholder="DROP table c..." />
+                <marker date="1430995880620" expanded="true" signature="2040:2059" placeholder="DROP table m..." />
+                <marker date="1430995880620" expanded="true" signature="2091:2108" placeholder="DROP table e..." />
+                <marker date="1430995880620" expanded="true" signature="2139:2257" placeholder="create table..users..." />
+                <marker date="1430995880620" expanded="true" signature="2287:2379" placeholder="create table..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="2409:2490" placeholder="create table..calls..." />
+                <marker date="1430995880620" expanded="true" signature="2520:2625" placeholder="create table..messages..." />
+                <marker date="1430995880620" expanded="true" signature="2655:2762" placeholder="create table..events..." />
+                <marker date="1430995880620" expanded="true" signature="2913:3036" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="3956:4016" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="4173:4207" placeholder="select * fro..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="4434:4465" placeholder="select * fro..calls..." />
+                <marker date="1430995880620" expanded="true" signature="4683:4717" placeholder="select * fro..messages..." />
+                <marker date="1430995880620" expanded="true" signature="4963:4995" placeholder="select * fro..events..." />
+                <marker date="1430995880620" expanded="true" signature="5253:5473" placeholder="select (miss..users..." />
+                <marker date="1430995880620" expanded="true" signature="5373:5472" placeholder="select id_co..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="5558:5589" placeholder="DELETE FROM ..." />
+                <marker date="1430995880620" expanded="true" signature="6543:6574" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="6974:7089" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="7562:7686" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="8038:8153" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="8505:8620" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="8972:9087" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="9468:9596" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="10021:10149" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="10598:10728" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="11645:11705" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="11780:11820" placeholder="UPDATE users..." />
+                <marker date="1430995880620" expanded="true" signature="12224:12256" placeholder="select * fro..events..." />
+                <marker date="1430995880620" expanded="true" signature="12523:12586" placeholder="select (miss..." />
+                <marker date="1430995880620" expanded="true" signature="12523:12743" placeholder="select (miss..users..." />
+                <marker date="1430995880620" expanded="true" signature="12643:12742" placeholder="select id_co..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="12821:12852" placeholder="DELETE FROM ..." />
+                <marker date="1430995880620" expanded="true" signature="13795:13855" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="13929:13960" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="14218:14350" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="14832:14963" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="16034:16179" placeholder="select * fro..events..." />
+                <marker date="1430995880620" expanded="true" signature="18298:18376" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="18975:19099" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="19655:19778" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="20797:20857" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="20944:20975" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="21122:21266" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="21857:21989" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="22471:22603" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="23712:23772" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="23901:23932" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="24020:24085" placeholder="select * fro..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="24447:24603" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="25269:25378" placeholder="select * fro..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="25653:25723" placeholder="UPDATE conta..." />
+                <marker date="1430995880620" expanded="true" signature="26382:26546" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="27172:27334" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="28093:28163" placeholder="UPDATE conta..." />
+                <marker date="1430995880620" expanded="true" signature="29880:29940" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="30014:30079" placeholder="select * fro..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="30214:30284" placeholder="UPDATE conta..." />
+                <marker date="1430995880620" expanded="true" signature="30716:30786" placeholder="UPDATE conta..." />
+                <marker date="1430995880620" expanded="true" signature="31203:31349" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="32558:32618" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="32692:32757" placeholder="select * fro..contacts..." />
+                <marker date="1430995880620" expanded="true" signature="32892:32945" placeholder="DELETE FROM ..." />
+                <marker date="1430995880620" expanded="true" signature="33330:33400" placeholder="UPDATE conta..." />
+                <marker date="1430995880620" expanded="true" signature="33817:33963" placeholder="INSERT INTO ..." />
+                <marker date="1430995880620" expanded="true" signature="34991:35051" placeholder="select * fro..users..." />
+                <marker date="1430995880620" expanded="true" signature="35126:35192" placeholder="UPDATE messa..." />
+                <marker date="1430995880620" expanded="true" signature="35126:35211" placeholder="UPDATE messa..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Timer.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_40/src.zip!/java/util/Timer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="504" column="0" selection-start-line="504" selection-start-column="0" selection-end-line="504" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -177,7 +174,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/web/RequestServlet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="56" column="42" selection-start-line="56" selection-start-column="42" selection-end-line="56" selection-end-column="42" />
+              <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -506,8 +503,8 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1014,33 +1011,34 @@
       <workItem from="1430160195940" duration="49522000" />
       <workItem from="1430726474008" duration="8055000" />
       <workItem from="1430743480378" duration="23017000" />
-      <workItem from="1430812465094" duration="12737000" />
+      <workItem from="1430812465094" duration="14327000" />
+      <workItem from="1430941023376" duration="4940000" />
+      <workItem from="1430984819166" duration="2337000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225918000" />
+    <option name="totallyTimeSpent" value="234785000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1380" height="784" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32515338" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3220859" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22512235" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41717792" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50153375" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24924242" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37883437" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1057,6 +1055,7 @@
       <window_info id="Run with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37883437" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1183,14 +1182,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/web/RequestServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1248,20 +1239,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.jtpl">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="160" column="11" selection-start-line="160" selection-start-column="4" selection-end-line="160" selection-end-column="11" />
         </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/WebRTCServerServletContextListener.java">
@@ -1334,9 +1323,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="92" selection-start-line="24" selection-start-column="92" selection-end-line="24" selection-end-column="92" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1411,13 +1398,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/index.jtpl">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="39" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
         </state>
-      </provider>
-      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/common/SignalingWebSocket.java">
@@ -1522,16 +1509,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/web/MainPageServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/8d7fee72-facf-4b7d-b126-c09a4e086deb/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1557,11 +1534,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/web/RequestServlet.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_40/src.zip!/java/util/concurrent/locks/Condition.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="42" selection-start-line="56" selection-start-column="42" selection-end-line="56" selection-end-column="42" />
-          <folding />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="178" column="17" selection-start-line="178" selection-start-column="17" selection-end-line="178" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1573,84 +1549,99 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/web/MainPageServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/web/RequestServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/webrtc/db/Db.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.17147435">
-          <caret line="396" column="48" selection-start-line="396" selection-start-column="48" selection-end-line="396" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.28619528">
+          <caret line="520" column="0" selection-start-line="520" selection-start-column="0" selection-end-line="520" selection-end-column="0" />
           <folding>
-            <element signature="e#16752#16753#0" expanded="true" />
-            <marker date="1430829303643" expanded="true" signature="1342:1409" placeholder="DELETE FROM ..." />
-            <marker date="1430829303643" expanded="true" signature="1580:1647" placeholder="DELETE FROM ..." />
-            <marker date="1430829303643" expanded="true" signature="1799:1815" placeholder="DROP table u..." />
-            <marker date="1430829303643" expanded="true" signature="1847:1866" placeholder="DROP table c..." />
-            <marker date="1430829303643" expanded="true" signature="1898:1914" placeholder="DROP table c..." />
-            <marker date="1430829303643" expanded="true" signature="1946:1965" placeholder="DROP table m..." />
-            <marker date="1430829303643" expanded="true" signature="1997:2014" placeholder="DROP table e..." />
-            <marker date="1430829303643" expanded="true" signature="2045:2163" placeholder="create table..users..." />
-            <marker date="1430829303643" expanded="true" signature="2193:2285" placeholder="create table..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="2315:2396" placeholder="create table..calls..." />
-            <marker date="1430829303643" expanded="true" signature="2426:2531" placeholder="create table..messages..." />
-            <marker date="1430829303643" expanded="true" signature="2561:2668" placeholder="create table..events..." />
-            <marker date="1430829303643" expanded="true" signature="2819:2942" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="3862:3922" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="4079:4113" placeholder="select * fro..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="4340:4371" placeholder="select * fro..calls..." />
-            <marker date="1430829303643" expanded="true" signature="4589:4623" placeholder="select * fro..messages..." />
-            <marker date="1430829303643" expanded="true" signature="4869:4901" placeholder="select * fro..events..." />
-            <marker date="1430829303643" expanded="true" signature="5159:5379" placeholder="select (miss..users..." />
-            <marker date="1430829303643" expanded="true" signature="5279:5378" placeholder="select id_co..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="5464:5495" placeholder="DELETE FROM ..." />
-            <marker date="1430829303643" expanded="true" signature="6449:6480" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="6880:6995" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="7468:7592" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="7944:8059" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="8411:8526" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="8878:8993" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="9374:9502" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="9927:10055" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="10504:10634" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="11551:11611" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="11686:11726" placeholder="UPDATE users..." />
-            <marker date="1430829303643" expanded="true" signature="12130:12162" placeholder="select * fro..events..." />
-            <marker date="1430829303643" expanded="true" signature="12429:12492" placeholder="select (miss..." />
-            <marker date="1430829303643" expanded="true" signature="12429:12649" placeholder="select (miss..users..." />
-            <marker date="1430829303643" expanded="true" signature="12549:12648" placeholder="select id_co..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="12727:12758" placeholder="DELETE FROM ..." />
-            <marker date="1430829303643" expanded="true" signature="13701:13761" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="13835:13866" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="14124:14256" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="14738:14869" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="15820:15973" placeholder="select * fro..events..." />
-            <marker date="1430829303643" expanded="true" signature="17487:17565" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="17882:18006" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="18549:18670" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="19595:19655" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="19742:19773" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="19920:20064" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="20655:20787" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="21269:21401" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="22510:22570" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="22699:22730" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="22818:22883" placeholder="select * fro..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="23245:23401" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="24067:24176" placeholder="select * fro..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="24451:24521" placeholder="UPDATE conta..." />
-            <marker date="1430829303643" expanded="true" signature="25180:25344" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="25970:26132" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="26891:26961" placeholder="UPDATE conta..." />
-            <marker date="1430829303643" expanded="true" signature="28678:28738" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="28812:28877" placeholder="select * fro..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="29012:29082" placeholder="UPDATE conta..." />
-            <marker date="1430829303643" expanded="true" signature="29514:29584" placeholder="UPDATE conta..." />
-            <marker date="1430829303643" expanded="true" signature="30001:30147" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="31356:31416" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="31490:31555" placeholder="select * fro..contacts..." />
-            <marker date="1430829303643" expanded="true" signature="31690:31743" placeholder="DELETE FROM ..." />
-            <marker date="1430829303643" expanded="true" signature="32128:32198" placeholder="UPDATE conta..." />
-            <marker date="1430829303643" expanded="true" signature="32615:32761" placeholder="INSERT INTO ..." />
-            <marker date="1430829303643" expanded="true" signature="33789:33849" placeholder="select * fro..users..." />
-            <marker date="1430829303643" expanded="true" signature="33924:33990" placeholder="UPDATE messa..." />
-            <marker date="1430829303643" expanded="true" signature="33924:34009" placeholder="UPDATE messa..." />
+            <marker date="1430995880620" expanded="true" signature="1436:1503" placeholder="DELETE FROM ..." />
+            <marker date="1430995880620" expanded="true" signature="1674:1741" placeholder="DELETE FROM ..." />
+            <marker date="1430995880620" expanded="true" signature="1893:1909" placeholder="DROP table u..." />
+            <marker date="1430995880620" expanded="true" signature="1941:1960" placeholder="DROP table c..." />
+            <marker date="1430995880620" expanded="true" signature="1992:2008" placeholder="DROP table c..." />
+            <marker date="1430995880620" expanded="true" signature="2040:2059" placeholder="DROP table m..." />
+            <marker date="1430995880620" expanded="true" signature="2091:2108" placeholder="DROP table e..." />
+            <marker date="1430995880620" expanded="true" signature="2139:2257" placeholder="create table..users..." />
+            <marker date="1430995880620" expanded="true" signature="2287:2379" placeholder="create table..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="2409:2490" placeholder="create table..calls..." />
+            <marker date="1430995880620" expanded="true" signature="2520:2625" placeholder="create table..messages..." />
+            <marker date="1430995880620" expanded="true" signature="2655:2762" placeholder="create table..events..." />
+            <marker date="1430995880620" expanded="true" signature="2913:3036" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="3956:4016" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="4173:4207" placeholder="select * fro..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="4434:4465" placeholder="select * fro..calls..." />
+            <marker date="1430995880620" expanded="true" signature="4683:4717" placeholder="select * fro..messages..." />
+            <marker date="1430995880620" expanded="true" signature="4963:4995" placeholder="select * fro..events..." />
+            <marker date="1430995880620" expanded="true" signature="5253:5473" placeholder="select (miss..users..." />
+            <marker date="1430995880620" expanded="true" signature="5373:5472" placeholder="select id_co..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="5558:5589" placeholder="DELETE FROM ..." />
+            <marker date="1430995880620" expanded="true" signature="6543:6574" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="6974:7089" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="7562:7686" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="8038:8153" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="8505:8620" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="8972:9087" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="9468:9596" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="10021:10149" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="10598:10728" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="11645:11705" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="11780:11820" placeholder="UPDATE users..." />
+            <marker date="1430995880620" expanded="true" signature="12224:12256" placeholder="select * fro..events..." />
+            <marker date="1430995880620" expanded="true" signature="12523:12586" placeholder="select (miss..." />
+            <marker date="1430995880620" expanded="true" signature="12523:12743" placeholder="select (miss..users..." />
+            <marker date="1430995880620" expanded="true" signature="12643:12742" placeholder="select id_co..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="12821:12852" placeholder="DELETE FROM ..." />
+            <marker date="1430995880620" expanded="true" signature="13795:13855" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="13929:13960" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="14218:14350" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="14832:14963" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="16034:16179" placeholder="select * fro..events..." />
+            <marker date="1430995880620" expanded="true" signature="18298:18376" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="18975:19099" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="19655:19778" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="20797:20857" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="20944:20975" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="21122:21266" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="21857:21989" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="22471:22603" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="23712:23772" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="23901:23932" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="24020:24085" placeholder="select * fro..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="24447:24603" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="25269:25378" placeholder="select * fro..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="25653:25723" placeholder="UPDATE conta..." />
+            <marker date="1430995880620" expanded="true" signature="26382:26546" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="27172:27334" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="28093:28163" placeholder="UPDATE conta..." />
+            <marker date="1430995880620" expanded="true" signature="29880:29940" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="30014:30079" placeholder="select * fro..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="30214:30284" placeholder="UPDATE conta..." />
+            <marker date="1430995880620" expanded="true" signature="30716:30786" placeholder="UPDATE conta..." />
+            <marker date="1430995880620" expanded="true" signature="31203:31349" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="32558:32618" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="32692:32757" placeholder="select * fro..contacts..." />
+            <marker date="1430995880620" expanded="true" signature="32892:32945" placeholder="DELETE FROM ..." />
+            <marker date="1430995880620" expanded="true" signature="33330:33400" placeholder="UPDATE conta..." />
+            <marker date="1430995880620" expanded="true" signature="33817:33963" placeholder="INSERT INTO ..." />
+            <marker date="1430995880620" expanded="true" signature="34991:35051" placeholder="select * fro..users..." />
+            <marker date="1430995880620" expanded="true" signature="35126:35192" placeholder="UPDATE messa..." />
+            <marker date="1430995880620" expanded="true" signature="35126:35211" placeholder="UPDATE messa..." />
           </folding>
         </state>
       </provider>

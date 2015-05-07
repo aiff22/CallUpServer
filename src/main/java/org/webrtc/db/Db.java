@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 // Message types:
@@ -392,7 +394,8 @@ public class Db {
                 final Timer timer = new Timer();
 
                 final AtomicInteger sec = new AtomicInteger();
-
+                final ReentrantLock lock = new ReentrantLock();
+                final Condition c = lock.newCondition();
                 final Connection finalConn = conn;
                 timer.schedule(new TimerTask() {
                     @Override
@@ -400,16 +403,22 @@ public class Db {
 
                         try {
 
-                            ResultSet rs = stat.executeQuery("select event_text from events as room where id = " + login +
+                            ResultSet rs = stat.executeQuery("select event_text from events where id = " + login +
                                     " AND id_contact = " + id_contact + " AND event_type = 2");
 
-                            if ((rs.next() && !rs.getString("room").equals("")) || sec.get() > 20) {
+                            Boolean isResponse = rs.next();
 
-                                room[0] = rs.getString("room");
+                            if ((isResponse && !rs.getString("event_text").equals("")) || sec.get() > 30) {
+
+                                if (isResponse && !rs.getString("event_text").equals("")) room[0] = rs.getString("event_text");
                                 logger.info("Response room returned: " + room[0]);
                                 timer.cancel();
                                 stat.close();
                                 finalConn.close();
+
+                                lock.lock();
+                                c.signal();
+                                lock.unlock();
 
                             } else {
                                 sec.incrementAndGet();
@@ -423,6 +432,18 @@ public class Db {
 
                     }
                 }, 1000, 1000);
+
+                try {
+                    lock.lock();
+                    //if (room[0] == "-1")
+                    c.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    lock.unlock();
+                }
+
+                return room[0];
 
             } else {
                 logger.info("No peer " + Integer.toString(id_contact) + "is found!");
@@ -446,6 +467,8 @@ public class Db {
         ResultSet rs;
         rs = stat.executeQuery("select * from users where id = " + Integer.toString(login) + " AND password = " + pass);
 
+        logger.info("User " + Integer.toString(login) + " is making call response 2");
+
         if (rs.next()) {
 
             String room = "-2";
@@ -456,13 +479,15 @@ public class Db {
                 callStatus = 2;
             }
 
+            logger.info("User " + Integer.toString(login) + " response " + String.valueOf(callStatus));
+
+            logger.info("User " + Integer.toString(login) + " generated room " + room);
+
             // Update peer's event table
 
             String insertTableSQL = "INSERT INTO events"
                     + "(id, id_contact, event_text, event_type) VALUES"
                     + "(?,?,?,?)";
-
-            logger.info("User " + Integer.toString(login) + " generated room " + room);
 
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id_contact);
@@ -473,10 +498,12 @@ public class Db {
 
             preparedStatement.close();
 
+            logger.info("User " + Integer.toString(login) + " inserted data to peer's event table");
+
             // Add incoming call to user table
 
             insertTableSQL = "INSERT INTO calls"
-                    + "(id, id_contact, call_date, call_type) VALUES"
+                    + "(id, id_contact, call_date, call_status) VALUES"
                     + "(?,?,?,?)";
 
             preparedStatement = conn.prepareStatement(insertTableSQL);
@@ -487,6 +514,8 @@ public class Db {
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
+
+            logger.info("User " + Integer.toString(login) + " inserted data to call table");
 
             return room;
 
