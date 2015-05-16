@@ -146,14 +146,17 @@ public class RequestServlet extends HttpServlet {
         Integer id_contact = Integer.valueOf(req.getParameterValues("id_contact")[0]);
         Integer be_friends = Integer.valueOf(req.getParameterValues("be_friends")[0]);
 
-        try {
-            resp.getWriter().print(Integer.toString(db.add_contact(login, pass, id_contact, be_friends, name)));
-        } catch (SQLException e) {
+        if (id_contact != login) {
+
+            try {
+                resp.getWriter().print(Integer.toString(db.add_contact(login, pass, id_contact, be_friends, name)));
+            } catch (SQLException e) {
 //>>
-            e.printStackTrace();
-        } catch (IOException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
 //>>
-            e.printStackTrace();
+                e.printStackTrace();
+            }
         }
 
     }

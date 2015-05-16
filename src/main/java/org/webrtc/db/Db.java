@@ -447,12 +447,14 @@ public class Db {
 
             } else {
                 logger.info("No peer " + Integer.toString(id_contact) + "is found!");
-                throw new RuntimeException("Peer does not exist");
+                return "-4";
+                //throw new RuntimeException("Peer does not exist");
             }
 
         } else {
             logger.info("User " + Integer.toString(login) + " not found!");
-            throw new RuntimeException("User not found");
+            return "-3";
+            //throw new RuntimeException("User not found");
         }
     }
 
@@ -486,14 +488,15 @@ public class Db {
             // Update peer's event table
 
             String insertTableSQL = "INSERT INTO events"
-                    + "(id, id_contact, event_text, event_type) VALUES"
-                    + "(?,?,?,?)";
+                    + "(id, id_contact, event_text, event_type, event_date) VALUES"
+                    + "(?,?,?,?,?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id_contact);
             preparedStatement.setInt(2, login);
             preparedStatement.setString(3, room);
             preparedStatement.setInt(4, 2);
+            preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
