@@ -63,6 +63,7 @@ public class Db {
             //stat.execute("DROP table messages");
             //stat.execute("DROP table events");
 
+            stat.execute("create table calltable(id INT, id_contact int, call_status VARCHAR (20))");
             stat.execute("create table users(id INT primary key, password VARCHAR (20), id_name VARCHAR (20), status BIGINT, email VARCHAR (20))");
             stat.execute("create table contacts(id INT, id_contact int, contact_name VARCHAR (20), contact_status INT)");
             stat.execute("create table calls(id INT, id_contact int, call_date TIMESTAMP , call_status INT)");
@@ -373,7 +374,22 @@ public class Db {
 
                 preparedStatement.close();
 
-                // Update user's calls table
+                // Update user's call table
+
+                // Delete previous outcoming calls to the peer
+
+                insertTableSQL = "DELETE  FROM calls WHERE id = ? AND id_contact = ? AND call_status = 1";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, login);
+                preparedStatement.setInt(2, id_contact);
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+
+                // Add new outcoming call
+
+                preparedStatement.close();
 
                 insertTableSQL = "INSERT INTO calls"
                         + "(id, id_contact, call_date, call_status) VALUES"
@@ -384,6 +400,48 @@ public class Db {
                 preparedStatement.setInt(2, id_contact);
                 preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
                 preparedStatement.setInt(4, 1);
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+
+                // Delete all data from contact table
+
+                insertTableSQL = "DELETE  FROM calltable WHERE id = ? AND id_contact = ?";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, login);
+                preparedStatement.setInt(2, id_contact);
+                preparedStatement.executeUpdate();
+
+                // Update peer's call table
+
+                insertTableSQL = "DELETE  FROM calls WHERE id = ? AND id_contact = ? AND call_status = 2";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, id_contact);
+                preparedStatement.setInt(2, login);
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+
+                insertTableSQL = "DELETE  FROM calls WHERE id = ? AND id_contact = ? AND call_status = 3";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, id_contact);
+                preparedStatement.setInt(2, login);
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
+
+                insertTableSQL = "INSERT INTO calls"
+                        + "(id, id_contact, call_date, call_status) VALUES"
+                        + "(?,?,?,?)";
+
+                preparedStatement = conn.prepareStatement(insertTableSQL);
+                preparedStatement.setInt(1, id_contact);
+                preparedStatement.setInt(2, login);
+                preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+                preparedStatement.setInt(4, 3);
                 preparedStatement.executeUpdate();
 
                 preparedStatement.close();
@@ -403,14 +461,14 @@ public class Db {
 
                         try {
 
-                            ResultSet rs = stat.executeQuery("select event_text from events where id = " + login +
-                                    " AND id_contact = " + id_contact + " AND event_type = 2");
+                            ResultSet rs = stat.executeQuery("select call_status from calltable where id = " + login +
+                                    " AND id_contact = " + id_contact);
 
                             Boolean isResponse = rs.next();
 
-                            if ((isResponse && !rs.getString("event_text").equals("")) || sec.get() > 30) {
+                            if (isResponse || sec.get() > 30) {
 
-                                if (isResponse && !rs.getString("event_text").equals("")) room[0] = rs.getString("event_text");
+                                if (isResponse) room[0] = rs.getString("call_status");
                                 logger.info("Response room returned: " + room[0]);
                                 timer.cancel();
                                 stat.close();
@@ -487,33 +545,27 @@ public class Db {
 
             // Update peer's event table
 
-            String insertTableSQL = "INSERT INTO events"
-                    + "(id, id_contact, event_text, event_type, event_date) VALUES"
-                    + "(?,?,?,?,?)";
+            String insertTableSQL = "INSERT INTO calltable"
+                    + "(id, id_contact, call_status) VALUES"
+                    + "(?,?,?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, id_contact);
             preparedStatement.setInt(2, login);
             preparedStatement.setString(3, room);
-            preparedStatement.setInt(4, 2);
-            preparedStatement.setTimestamp(5, new Timestamp(new Date().getTime()));
-            preparedStatement.executeUpdate();
-
             preparedStatement.close();
 
             logger.info("User " + Integer.toString(login) + " inserted data to peer's event table");
 
             // Add incoming call to user table
 
-            insertTableSQL = "INSERT INTO calls"
-                    + "(id, id_contact, call_date, call_status) VALUES"
-                    + "(?,?,?,?)";
+            insertTableSQL = "UPDATE calls SET contact_status = ? WHERE id = ? AND id_contact = ? AND call_status = ?";
 
             preparedStatement = conn.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, login);
-            preparedStatement.setInt(2, id_contact);
-            preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
-            preparedStatement.setInt(4, callStatus);
+            preparedStatement.setInt(1, callStatus);
+            preparedStatement.setInt(2, login);
+            preparedStatement.setInt(3, id_contact);
+            preparedStatement.setInt(4, 3);
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
@@ -901,6 +953,64 @@ public class Db {
             throw new RuntimeException("User not found");
         }
 
+    }
+
+    public String delcall(Integer login, String pass, Integer id_contact, Integer type) throws SQLException {
+
+        Connection conn = null;
+        conn = DriverManager.getConnection("jdbc:h2:~/users");
+
+        Statement stat = conn.createStatement();
+        ResultSet rs = stat.executeQuery("select * from users where id = " + login + " AND password = " + pass);
+
+        if (rs.next()) {
+
+            String insertTableSQL = "DELETE  FROM calls WHERE id = ? AND id_contact = ? AND call_status = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, login);
+            preparedStatement.setInt(2, id_contact);
+            preparedStatement.setInt(3, type);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+
+            return "1";
+
+        } else {
+            logger.info("User " + Integer.toString(login) + " not found!");
+            return "-1";
+            //throw new RuntimeException("User not found");
+        }
+    }
+
+    public String delmsg(Integer login, String pass, Integer id_contact, Integer type) throws SQLException {
+
+        Connection conn = null;
+        conn = DriverManager.getConnection("jdbc:h2:~/users");
+
+        Statement stat = conn.createStatement();
+        ResultSet rs = stat.executeQuery("select * from users where id = " + login + " AND password = " + pass);
+
+        if (rs.next()) {
+
+            String insertTableSQL = "DELETE  FROM messages WHERE id = ? AND id_contact = ? AND msg_status = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, login);
+            preparedStatement.setInt(2, id_contact);
+            preparedStatement.setInt(3, type);
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+
+            return "1";
+
+        } else {
+            logger.info("User " + Integer.toString(login) + " not found!");
+            return "-1";
+            //throw new RuntimeException("User not found");
+        }
     }
 }
 

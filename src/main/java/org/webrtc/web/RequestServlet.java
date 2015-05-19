@@ -39,9 +39,45 @@ public class RequestServlet extends HttpServlet {
             if (value.equals("delcontact")) delcontact(req, resp);
             if (value.equals("msgstatus")) msgstatus(req, resp);
             if (value.equals("respcall")) respcall(req, resp);
+            if (value.equals("delmsg")) delmsg(req, resp);
+            if (value.equals("delcall")) delcall(req, resp);
 
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void delcall(HttpServletRequest req, HttpServletResponse resp) {
+
+        Integer login = Integer.valueOf(req.getParameterValues("login")[0]);
+        String pass = req.getParameterValues("pass")[0];
+        Integer id_contact = Integer.valueOf(req.getParameterValues("id_contact")[0]);
+        Integer type = Integer.valueOf(req.getParameterValues("type")[0]);
+
+        try {
+            resp.getWriter().print(db.delcall(login, pass, id_contact, type));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void delmsg(HttpServletRequest req, HttpServletResponse resp) {
+
+        Integer login = Integer.valueOf(req.getParameterValues("login")[0]);
+        String pass = req.getParameterValues("pass")[0];
+        Integer id_contact = Integer.valueOf(req.getParameterValues("id_contact")[0]);
+        Integer type = Integer.valueOf(req.getParameterValues("type")[0]);
+
+        try {
+            resp.getWriter().print(db.delmsg(login, pass, id_contact, type));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -294,9 +330,3 @@ public class RequestServlet extends HttpServlet {
     }
 }
 
-
-//Kryo kryo = new Kryo();
-//InputStream stream = req.getInputStream();
-//Input input = new Input(stream);
-//List<List<String>> list = kryo.readObject(input, List.class);
-//input.close;
