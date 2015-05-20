@@ -195,7 +195,7 @@ public class Db {
 
         // *** Contacts ***
 
-        insertTableSQL = "INSERT INTO contacts"
+        /*insertTableSQL = "INSERT INTO contacts"
                 + "(id, id_contact, contact_name, contact_status) VALUES"
                 + "(?,?,?,?)";
 
@@ -206,9 +206,20 @@ public class Db {
         preparedStatement.setInt(4, 2);
         preparedStatement.executeUpdate();
 
+        insertTableSQL = "INSERT INTO contacts"
+                + "(id, id_contact, contact_name, contact_status) VALUES"
+                + "(?,?,?,?)";
+
+        preparedStatement = conn.prepareStatement(insertTableSQL);
+        preparedStatement.setInt(1, 00000001);
+        preparedStatement.setInt(2, login);
+        preparedStatement.setString(3, "user");
+        preparedStatement.setInt(4, 2);
+        preparedStatement.executeUpdate();*/
+
         // *** Calls ***
 
-        insertTableSQL = "INSERT INTO calls"
+        /*insertTableSQL = "INSERT INTO calls"
                 + "(id, id_contact, call_date, call_status) VALUES"
                 + "(?,?,?,?)";
 
@@ -282,6 +293,7 @@ public class Db {
         preparedStatement.executeUpdate();
 
         // <- Insert test data
+        */
 
         preparedStatement.close();
         conn.close();

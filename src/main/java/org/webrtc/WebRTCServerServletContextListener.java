@@ -18,7 +18,7 @@ public class WebRTCServerServletContextListener implements ServletContextListene
 	public void contextInitialized(ServletContextEvent event) {
 		try {
 			// 1) Create a Jetty server with the 8091 port.
-			this.server = new Server(80);
+			this.server = new Server(8081);
 			// 2) Register SingalingWebSocketHandler in the Jetty server instance.
 			WebRTCWebSocketHandler webRTCWebSocketHandler = new WebRTCWebSocketHandler();
 			webRTCWebSocketHandler.setHandler(new DefaultHandler());

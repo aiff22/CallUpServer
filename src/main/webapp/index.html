@@ -33,7 +33,7 @@
 
     function openChannel() {
         console.log("Opening channel.");
-        var location = "ws://{server_name}:80/";
+        var location = "ws://{server_name}:8081/";
         channel = new WebSocket(location);
         channel.onopen = onChannelOpened;
         console.log("onChannelOpened");
