@@ -473,7 +473,7 @@ public class Db {
 
                         try {
 
-                            ResultSet rs = stat.executeQuery("select call_status from calltable where id = " + login +
+                            ResultSet rs = stat.executeQuery("select * from calltable where id = " + login +
                                     " AND id_contact = " + id_contact);
 
                             Boolean isResponse = rs.next();
@@ -513,6 +513,7 @@ public class Db {
                     lock.unlock();
                 }
 
+                // logger.info("Finally response room returned: " + room[0]);
                 return room[0];
 
             } else {
@@ -565,13 +566,14 @@ public class Db {
             preparedStatement.setInt(1, id_contact);
             preparedStatement.setInt(2, login);
             preparedStatement.setString(3, room);
+            preparedStatement.executeUpdate();
             preparedStatement.close();
 
-            logger.info("User " + Integer.toString(login) + " inserted data to peer's event table");
+            logger.info("User " + Integer.toString(login) + " inserted data to peer's call table");
 
             // Add incoming call to user table
 
-            insertTableSQL = "UPDATE calls SET contact_status = ? WHERE id = ? AND id_contact = ? AND call_status = ?";
+            insertTableSQL = "UPDATE calls SET call_status = ? WHERE id = ? AND id_contact = ? AND call_status = ?";
 
             preparedStatement = conn.prepareStatement(insertTableSQL);
             preparedStatement.setInt(1, callStatus);
